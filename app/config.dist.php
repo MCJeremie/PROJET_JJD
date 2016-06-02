@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 $w_config = [
    	//information de connexion à la bdd

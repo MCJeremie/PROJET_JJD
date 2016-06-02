@@ -5,7 +5,7 @@ namespace W\Manager;
 /**
  * Le manager de base à extender
  */
-abstract class Manager 
+abstract class Manager
 {
 
 	/** @var string $table Le nom de la table */
@@ -211,7 +211,7 @@ abstract class Manager
 		if (!is_numeric($id)){
 			return false;
 		}
-		
+
 		$sql = "UPDATE " . $this->table . " SET ";
 		foreach($data as $key => $value){
 			$sql .= "$key = :$key, ";
