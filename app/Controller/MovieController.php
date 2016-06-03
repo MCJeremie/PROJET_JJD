@@ -10,7 +10,7 @@ class MovieController extends Controller
 	private $manager;
 
 	public function __construct() {
-		$this->manager = new MovieManager();
+		$this->manager = new UserManager();
 	}
 
 	public function view($id)

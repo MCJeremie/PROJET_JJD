@@ -2,7 +2,7 @@
 
 <?php $this->start('main_content') ?>
 
-<?php if (!empty($result)) { ?>
+<?php if ($result === true) { ?>
 <div class="alert alert-success">Votre film a bien été envoyé</div>
 <script>setTimeout(function() { location.href = "<?= $this->url('movie_view', array('id' => $result['id'])) ?>"; }, 3000);</script>
 <?php } else { ?>
