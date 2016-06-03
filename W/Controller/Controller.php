@@ -8,7 +8,7 @@ use W\Security\AuthorizationManager;
 /**
  * Le contrôleur de base à extender
  */
-class Controller 
+class Controller
 {
 
 	/**
@@ -40,7 +40,7 @@ class Controller
 	public function redirect($uri)
 	{
 		header("Location: $uri");
-		die();	
+		die();
 	}
 
 	/**
@@ -57,12 +57,14 @@ class Controller
 
 	/**
 	 * Affiche un template
-	 * 
+	 *
 	 * @param  string $file Chemin vers le template, relatif à app/templates/
 	 * @param  array  $data Données à rendre disponibles à la vue
 	 */
 	public function show($file, array $data = array())
 	{
+		global $w_routes;
+
 		//incluant le chemin vers nos templates
 		$engine = new \League\Plates\Engine('../app/templates');
 
@@ -73,7 +75,8 @@ class Controller
 		//accessible avec $w_user dans les fichiers de vue
 		$engine->addData(
 			array(
-				"w_user" => $this->getUser()
+				"w_user" => $this->getUser(),
+				"w_routes" => $w_routes
 			)
 		);
 
@@ -115,7 +118,7 @@ class Controller
 		}
 		else {
 			die("404");
-		}	
+		}
 	}
 
 	/**
@@ -130,7 +133,7 @@ class Controller
 
 	/**
 	 * Autorise l'accès à un ou plusieurs rôles
-	 * 		
+	 *
 	 * @param  mixed $roles Tableau de rôles, ou chaîne pour un seul
 	 */
 	public function allowTo($roles)
