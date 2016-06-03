@@ -24,7 +24,7 @@
 
 <body>
 
-	<?= $this->fetch('admin/partials/navbar') ?>
+	<?= $this->fetch('admin/partials/navbar', array('loggedUser' => $loggedUser)) ?>
 
 	<div class="container-fluid">
 		<div class="row">

@@ -19,6 +19,10 @@
 				<form class="navbar-form navbar-right">
 					<input type="text" class="form-control" placeholder="Search...">
 				</form>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a>Connecté en tant que : <?= $loggedUser['email'] ?></a></li>
+					<li><a href="<?= $this->url('user_logout') ?>">Déconnexion</a></li>
+				</ul>
 			</div>
 		</div>
 	</nav>

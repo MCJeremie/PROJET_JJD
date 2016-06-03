@@ -10,9 +10,11 @@ class AdminController extends Controller
 
 	public function dashboard()
 	{
-		$authent = new AuthentificationManager();
+		$loggedUser = $this->getUser();
 
-		$loggedUser = $authent->getLoggedUser();
+		if (empty($loggedUser)) {
+			$this->redirectToRoute('user_login');
+		}
 
 		$this->show('admin/dashboard', array('loggedUser' => $loggedUser));
 	}

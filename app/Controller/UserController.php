@@ -80,11 +80,63 @@ class UserController extends Controller
 
 	public function login()
 	{
+		// On réceptionne les données du formulaire
+		$login = !empty($_POST['login']) ? strip_tags(trim($_POST['login'])) : '';
+		$password = !empty($_POST['password']) ? strip_tags(trim($_POST['password'])) : '';
 
+		$errors = array();
+		$result = false;
+
+		// Le formulaire a ete soumis, on a appuye sur le bouton Envoyer
+		if (!empty($_POST)) {
+
+			// On check les erreurs possibles
+			if (empty($login) || empty($password)) {
+				$errors['login'] = 'Identifiants incorrects';
+			}
+
+			// Aucune erreur dans le formulaire, tous les champs ont été saisis correctement
+			if (empty($errors)) {
+
+				$user_id = $this->authent->isValidLoginInfo($login, $password);
+
+				if (empty($user_id)) {
+					$errors['login'] = 'Identifiants incorrects';
+				} else {
+
+					$user = $this->manager->find($user_id);
+
+					if (!empty($user)) {
+						$this->authent->logUserIn($user);
+						$result = true;
+					} else {
+						$errors['db_error'] = 'Erreur interne, merci de reessayer ulterieurement';
+					}
+				}
+			}
+		}
+
+		$this->show('user/login', array(
+			'errors' => $errors,
+			'result' => $result,
+			'login' => $login
+		));
 	}
 
 	public function logout()
 	{
+		// On détruit seulement les données user en session
+		$this->authent->logUserOut();
 
+		// On détruit toutes les variables dans $_SESSION
+		session_unset();
+
+		// On détruit la session côté serveur
+		session_destroy();
+
+		// On détruit le cookie de session côté client
+		setcookie(session_name(), false, 1, '/');
+
+		$this->redirectToRoute('user_login');
 	}
 }

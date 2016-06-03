@@ -1,10 +1,8 @@
-<?php $this->layout('admin/layout', ['title' => 'Admin Dashboard']) ?>
+<?php $this->layout('admin/layout', ['title' => 'Admin Dashboard', 'loggedUser' => $loggedUser]) ?>
 
 <?php $this->start('main_content') ?>
 
 				<h1 class="page-header">Dashboard</h1>
-
-				<h2><?= debug($loggedUser) ?></h2>
 
 				<div class="row placeholders">
 					<div class="col-xs-6 col-sm-3 placeholder">
