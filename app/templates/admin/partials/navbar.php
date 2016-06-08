@@ -20,8 +20,13 @@
 					<input type="text" class="form-control" placeholder="Search...">
 				</form>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a>Connecté en tant que : <?= $loggedUser['email'] ?></a></li>
+					<?php if (!empty($w_user)) { ?>
+					<li><a>Connecté en tant que : <?= $w_user['email'] ?></a></li>
 					<li><a href="<?= $this->url('user_logout') ?>">Déconnexion</a></li>
+					<?php } else { ?>
+					<li><a href="<?= $this->url('user_login') ?>">Connexion</a></li>
+					<li><a href="<?= $this->url('user_register') ?>">Inscription</a></li>
+					<?php } ?>
 				</ul>
 			</div>
 		</div>

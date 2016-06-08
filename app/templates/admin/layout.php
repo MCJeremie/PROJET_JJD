@@ -24,7 +24,7 @@
 
 <body>
 
-	<?= $this->fetch('admin/partials/navbar', array('loggedUser' => $loggedUser)) ?>
+	<?= $this->fetch('admin/partials/navbar') ?>
 
 	<div class="container-fluid">
 		<div class="row">
@@ -38,7 +38,7 @@
 
 	<script src="<?= $this->assetUrl('js/jquery.min.js') ?>"></script>
 	<script src="<?= $this->assetUrl('js/bootstrap.min.js') ?>"></script>
-	<script src="<?= $this->assetUrl('js/vendor/holder.min.js') ?>"></script>
+	<script src="<?= $this->assetUrl('js/holder.min.js') ?>"></script>
 	<script src="<?= $this->assetUrl('js/ie10-viewport-bug-workaround.js') ?>"></script>
 </body>
 </html>

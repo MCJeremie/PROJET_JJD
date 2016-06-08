@@ -7,7 +7,6 @@ namespace W\Manager;
  */
 abstract class Manager
 {
-
 	/** @var string $table Le nom de la table */
 	protected $table;
 

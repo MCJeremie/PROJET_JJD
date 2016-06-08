@@ -4,13 +4,14 @@ namespace Controller;
 
 use \W\Controller\Controller;
 use Manager\MovieManager;
+use Model\Movie;
 
 class MovieController extends Controller
 {
 	private $manager;
 
 	public function __construct() {
-		$this->manager = new UserManager();
+		$this->manager = new MovieManager();
 	}
 
 	public function view($id)
@@ -24,24 +25,28 @@ class MovieController extends Controller
 	{
 		$movie = $this->manager->getRandom();
 
-		$this->show('movie/random', array('movie' => $movie));
+		$this->show('movie/view', array('movie' => $movie));
 	}
 
 	public function catalog()
 	{
-		$movies = $this->manager->findAll();
+		$results = $this->manager->findAll();
 
 		$this->show('movie/catalog', array('movies' => $movies));
 	}
 
-	public function search($search) {
+	public function search($search = '') {
 
-		$search = htmlspecialchars($search);
-		$search = urldecode($search);
+		$movies = array();
+		if (!empty($search)) {
 
-		$movies = $this->manager->search($search);
+			$search = htmlspecialchars($search);
+			$search = urldecode($search);
 
-		$this->show('movie/search', array('movies' => $movies));
+			$movies = $this->manager->search($search);
+		}
+
+		$this->show('movie/search', array('search' => $search, 'movies' => $movies));
 	}
 
 	public function add()

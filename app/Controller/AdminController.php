@@ -16,7 +16,7 @@ class AdminController extends Controller
 			$this->redirectToRoute('user_login');
 		}
 
-		$this->show('admin/dashboard', array('loggedUser' => $loggedUser));
+		$this->show('admin/dashboard');
 	}
 
 }
