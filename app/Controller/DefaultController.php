@@ -15,4 +15,9 @@ class DefaultController extends Controller
 		$this->show('default/home');
 	}
 
+	public function error404()
+	{
+		$this->show('w_errors/404');
+	}
+
 }

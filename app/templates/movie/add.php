@@ -1,12 +1,14 @@
-<?php $this->layout('admin/layout', ['title' => 'Movie view']) ?>
+<?php $this->layout('admin/layout', ['title' => 'Movie add']) ?>
 
 <?php $this->start('main_content') ?>
 
 	<?php $this->fetch('movie/partials/navbar'); ?>
 
-	<?php if ($result === true) { ?>
+	<h1>Ajouter un film</h1>
+
+	<?php if (!empty($result)) { ?>
 	<div class="alert alert-success">Votre film a bien été envoyé</div>
-	<script>setTimeout(function() { location.href = "<?= $this->url('movie_view', array('id' => $result['id'])) ?>"; }, 3000);</script>
+	<script>setTimeout(function() { location.href = "<?= $this->url('movie_view', array('id' => $result)) ?>"; }, 3000);</script>
 	<?php } else { ?>
 
 	<?php if (!empty($errors)) { ?>
@@ -22,8 +24,11 @@
 	<?php } ?>
 
 	<form method="POST">
-		<label for="title">Title : </label><input type="text" id="title" name="title" value="<?= $title ?>"><br>
-		<label for="synopsis">Synopsis : </label><textarea id="synopsis" name="synopsis"><?= $synopsis ?></textarea>
+		<?php foreach($movie->getProperties() as $field => $value) { ?>
+		<label for="<?= $field ?>"><?= ucfirst(\Core\Utils::getCamelCase($field)) ?></label> :
+		<input type="text" size="50" id="<?= $field ?>" name="<?= $field ?>" value="<?= $value ?>">
+		<br>
+		<?php } ?>
 		<hr>
 		<input type="submit" value="Envoyer">
 	</form>

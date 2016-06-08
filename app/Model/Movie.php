@@ -1,11 +1,12 @@
 <?php
 namespace Model;
 
+use \Exception;
 use Core\Utils;
 
 class Movie extends \Core\Model {
 
-	protected $id;
+	private $id;
 	protected $slug;
 	protected $title;
 	protected $year;
@@ -81,55 +82,61 @@ class Movie extends \Core\Model {
 
 	/* Setters */
 	public function setId($id) {
-			$this->id = $id;
+		$this->id = $id;
 	}
 	public function setSlug($slug) {
-			$this->slug = $slug;
+		$this->slug = $slug;
 	}
 	public function setTitle($title) {
-			$this->title = $title;
+		if (empty($title) || strlen($title) > 255) {
+			throw new Exception('Le titre est obligatoire');
+		}
+		$this->title = $title;
 	}
 	public function setYear($year) {
-			$this->year = $year;
+		if (empty($year) || !is_numeric($year)) {
+			throw new Exception('Une année valide est obligatoire');
+		}
+		$this->year = $year;
 	}
 	public function setGenres($genres) {
-			$this->genres = $genres;
+		$this->genres = $genres;
 	}
 	public function setSynopsis($synopsis) {
 			$this->synopsis = $synopsis;
 	}
 	public function setDirectors($directors) {
-			$this->directors = $directors;
+		$this->directors = $directors;
 	}
 	public function setActors($actors) {
-			$this->actors = $actors;
+		$this->actors = $actors;
 	}
 	public function setWriters($writers) {
-			$this->writers = $writers;
+		$this->writers = $writers;
 	}
 	public function setRuntime($runtime) {
-			$this->runtime = $runtime;
+		$this->runtime = $runtime;
 	}
 	public function setMpaa($mpaa) {
-			$this->mpaa = $mpaa;
+		$this->mpaa = $mpaa;
 	}
 	public function setRating($rating) {
-			$this->rating = $rating;
+		$this->rating = $rating;
 	}
 	public function setPopularity($popularity) {
-			$this->popularity = $popularity;
+		$this->popularity = $popularity;
 	}
 	public function setModified($modified) {
-			$this->modified = $modified;
+		$this->modified = $modified;
 	}
 	public function setCreated($created) {
-			$this->created = $created;
+		$this->created = $created;
 	}
 	public function setPosterFlag($poster_flag) {
-			$this->poster_flag = $poster_flag;
+		$this->poster_flag = $poster_flag;
 	}
 	public function setCover($cover) {
-			$this->cover = $cover;
+		$this->cover = $cover;
 	}
 
 }

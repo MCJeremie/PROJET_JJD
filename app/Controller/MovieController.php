@@ -2,9 +2,10 @@
 
 namespace Controller;
 
+use \Exception;
 use \W\Controller\Controller;
-use Manager\MovieManager;
-use Model\Movie;
+use \Manager\MovieManager;
+use \Model\Movie;
 
 class MovieController extends Controller
 {
@@ -18,6 +19,10 @@ class MovieController extends Controller
 	{
 		$movie = $this->manager->find($id);
 
+		if (empty($movie)) {
+			$this->redirectToRoute('404');
+		}
+
 		$this->show('movie/view', array('movie' => $movie));
 	}
 
@@ -30,7 +35,7 @@ class MovieController extends Controller
 
 	public function catalog()
 	{
-		$results = $this->manager->findAll();
+		$movies = $this->manager->findAll();
 
 		$this->show('movie/catalog', array('movies' => $movies));
 	}
@@ -57,30 +62,31 @@ class MovieController extends Controller
 		$errors = array();
 		$result = false;
 
+		$movie = new Movie();
+
 		if (!empty($_POST)) {
 
-			if (empty($title)) {
-				$errors['title'] = 'Le titre est obligatoire';
-			}
-			if (empty($synopsis)) {
-				$errors['synopsis'] = 'Le synopsis est obligatoire';
+			try {
+				foreach($movie->getProperties() as $field => $_value) {
+					$value = !empty($_POST[$field]) ? strip_tags($_POST[$field]) : '';
+					$movie->$field = $value;
+				}
+			} catch (Exception $e) {
+				$errors[$field] = $e->getMessage();
 			}
 
 			if (empty($errors)) {
-				$created_movie = $this->manager->insert(array(
-					'title' => $title,
-					'synopsis' => $synopsis,
-				));
-
-				$result = $created_movie;
+				$result = $this->manager->save($movie);
+				if (empty($result)) {
+					$errors['db'] = 'Erreur interne, merci de réessayer ultérieurement';
+				}
 			}
 		}
 
 		$this->show('movie/add', array(
 			'errors' => $errors,
 			'result' => $result,
-			'title' => $title,
-			'synopsis' => $synopsis
+			'movie' => $movie,
 		));
 	}
 

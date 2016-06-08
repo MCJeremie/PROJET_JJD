@@ -29,12 +29,15 @@ abstract class Model {
 		}
 	}
 
-	public function getProperties() {
+	public function getProperties($get_privates = false) {
 		$class = new \ReflectionClass($this);
-		$properties = $class->getProperties(\ReflectionProperty::IS_PROTECTED);
+		$properties = $class->getProperties();
 		$vars = array();
 		foreach ($properties as $property) {
-		    $vars[$property->getName()] = '';
+			$property_name = $property->getName();
+			if (!$property->isPrivate() || $get_privates === true) {
+				$vars[$property_name] = $this->$property_name;
+			}
 		}
 		return $vars;
 	}
@@ -66,14 +69,14 @@ abstract class Model {
 	}
 
 	public function __toString() {
- 		return '<pre>'.var_export($this, true).'</pre>';
-    }
+		return '<pre>'.var_export($this, true).'</pre>';
+	}
 
-    private function _getter($key) {
-    	return Utils::getCamelCase('get'.ucfirst($key));
-    }
+	private function _getter($key) {
+		return Utils::getCamelCase('get'.ucfirst($key));
+	}
 
-    private function _setter($key) {
-    	return Utils::getCamelCase('set'.ucfirst($key));
-    }
+	private function _setter($key) {
+		return Utils::getCamelCase('set'.ucfirst($key));
+	}
 }
